@@ -29,7 +29,12 @@ const server = http.createServer((req, res) => {
   if (req.url == '/index.html' || req.url == '/') {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html');
-    res.end(mainView.generateWebPage(currentWeight, currentTotal));
+    res.end(mainView.generateMainPage(currentWeight, currentTotal));
+  }
+  else if (req.url == '/history') {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/html');
+    res.end(mainView.generateHistoryPage(weighData));
   }
   else if (req.url == '/weigh') {
     console.log("Weigh initiated!");
