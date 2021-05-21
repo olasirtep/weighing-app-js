@@ -1,0 +1,11 @@
+{
+  "name": "weighing-app",
+  "version": "1.0.0",
+  "description": "Simple weighing app prototype",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "author": "Petri Salo",
+  "license": "ISC"
+}
