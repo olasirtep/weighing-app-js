@@ -35,7 +35,8 @@ const server = http.createServer((req, res) => {
     console.log("Weigh initiated!");
     // Generate random weight in range of 10kg -> 2000kg
     currentWeight = Math.floor((Math.random()*1991)+10);
-    console.log(Math.floor((Math.random()*1991)+10));
+    // Add to list and save
+    addWeightToList(currentWeight);
     // Add to total
     currentTotal += currentWeight;
 
@@ -66,6 +67,36 @@ const server = http.createServer((req, res) => {
     res.end(json);
   }
 });
+
+// Add new weight to list and save list to file
+function addWeightToList(weight) {
+  let weightObject = {'weight' : weight, 'datetime' : getDateString()};
+  weighData.push(weightObject);
+  saveWeightList();
+}
+
+// Saves JSON serialized version of list
+function saveWeightList() {
+  let json = JSON.stringify(weighData);
+
+  fs.writeFile('data.json', json, (err) => {
+    if (err) throw err;
+    console.log('Weight data written to file');
+  });
+}
+
+function getDateString() {
+  var d = new Date();
+
+  var dd = String(d.getDate()).padStart(2, '0');
+  var mm = String(d.getMonth() + 1).padStart(2, '0');
+  var yyyy = d.getFullYear();
+
+  var hours = String(d.getHours()).padStart(2, '0');
+  var minutes = String(d.getMinutes()).padStart(2, '0');
+
+  return dd+"."+mm+"."+yyyy+" "+hours+":"+minutes;
+}
 
 // Open server
 server.listen(port, hostname, () => {
