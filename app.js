@@ -32,10 +32,29 @@ const server = http.createServer((req, res) => {
     res.end(mainView.generateWebPage(currentWeight, currentTotal));
   }
   else if (req.url == '/weigh') {
+    console.log("Weigh initiated!");
     // Generate random weight in range of 10kg -> 2000kg
-    currentWeight = Math.floor((Math.random*1991)+10);
+    currentWeight = Math.floor((Math.random()*1991)+10);
+    console.log(Math.floor((Math.random()*1991)+10));
     // Add to total
     currentTotal += currentWeight;
+
+    // Set headers
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+
+    console.log("currentWeight : "+currentWeight);
+
+    // Generate object and serialize to JSON
+    let data = {'currentWeight' : currentWeight, 'currentTotal' : currentTotal};
+    let json = JSON.stringify(data);
+    res.end(json);
+  }
+  else if (req.url == '/reset') {
+    console.log("Reset initiated!");
+    // Reset variables
+    currentWeight = 0;
+    currentTotal = 0;
 
     // Set headers
     res.statusCode = 200;
